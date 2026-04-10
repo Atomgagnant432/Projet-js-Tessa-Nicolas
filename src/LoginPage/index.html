@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetflixLight — Connexion</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+ 
+  <nav class="navbar">
+    <a href="../HomePage/index.html" class="navbar__logo">NetflixLight</a>
+    <div class="navbar__actions">
+      <a href="#" class="btn btn--primary btn--sm">Se connecter ?</a>
+    </div>
+  </nav>
+ 
+  <main class="auth-page">
+    <div class="auth-card">
+
+      <p class="auth-card__subtitle">Bienvenue — Connectez-vous pour continuer</p>
+ 
+      <div class="auth-card__form">
+ 
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label>
+          <input class="form-control" type="email" id="email"
+                 placeholder="email@exemple.com" autocomplete="email" />
+        </div>
+ 
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input class="form-control" type="password" id="password"
+                 placeholder="••••••••" autocomplete="current-password" />
+          <div class="auth-card__forgot"><a href="#">Mot de passe oublié ?</a></div>
+        </div>
+ 
+        <div class="checkbox-group">
+          <input type="checkbox" id="remember" />
+          <label for="remember">Se rappeler de moi</label>
+        </div>
+ 
+        <button class="btn btn--primary btn--lg btn--full" onclick="handleLogin()">
+          Se connecter
+        </button>
+ 
+      </div>
+ 
+      <div class="auth-card__footer">
+        Pas encore de compte chez nous ? <a href="#">Créer un compte ici</a>
+      </div>
+ 
+    </div>
+  </main>
+ 
+  <script src="script.js"></script>
+</body>
+</html>
