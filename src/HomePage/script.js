@@ -1,10 +1,16 @@
 // 1. Configuration de l'API
-const API_KEY = env.Jeton_tmdb; 
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=fr-FR&page=1";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const row = document.getElementById('movie-row');
 const leftBtn = document.querySelector('.carousel-btn.left');
 const rightBtn = document.querySelector('.carousel-btn.right');
+
+
+// Récupère la clé depuis le serveur
+async function init() {
+    const res = await fetch('/api/config');
+    const config = await res.json();
+    const API_KEY = config.tmdbKey;
 
 // 2. Fonction pour récupérer les données
 async function getMovies() {
@@ -23,12 +29,13 @@ async function getMovies() {
 
     } catch (error) {
         console.error("Erreur lors de la récupération :", error);
-        grid.innerHTML = "<p>Impossible de charger les films pour le moment.</p>";
+        row.innerHTML = "<p>Impossible de charger les films pour le moment.</p>";
     }
 }
 
 // 3. Fonction pour afficher les films
 function displayMovies(movies) {
+    console.log("Films reçus :", movies);
     row.innerHTML = "";
 
     movies.forEach(movie => {
@@ -40,7 +47,7 @@ function displayMovies(movies) {
             : "https://via.placeholder.com/500x750?text=Pas+d'image";
 
         movieEl.innerHTML = `
-            <img src="${posterUrl}"alt="${movie.title}">
+            <img src="${posterUrl}" alt="${movie.title}">
             <div class="card-info">
               <div class="card-title">${movie.title}</div>
               <div class="card-meta">${movie.vote_average.toFixed(1)}</div>
@@ -57,3 +64,5 @@ rightBtn.addEventListener('click', () => {
   row.scrollLeft += 300;
 });
 getMovies();
+}
+init();
