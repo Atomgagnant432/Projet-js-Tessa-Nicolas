@@ -287,3 +287,8 @@ body {
 .carousel-btn.right {
   margin-left: 5px;
 }
+
+.movie-row .movie-card {
+    flex-shrink: 0;
+    width: 180px;
+}
