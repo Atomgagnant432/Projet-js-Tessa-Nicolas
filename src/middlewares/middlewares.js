@@ -1,9 +1,6 @@
-function isAuthenticated(req, res, next) {
-  if (req.user) {
-    return next();
+module.exports = (req, res, next) => {
+  if (!req.session || !req.session.userId) {
+    return res.status(401).json({ error: 'Accès non autorisé, veuillez vous connecter.' });
   }
-
-  return res.status(401).json({
-    message: "Non authentifié"
-  });
-}
+  next();
+};
