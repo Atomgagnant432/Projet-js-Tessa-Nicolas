@@ -12,6 +12,7 @@
             <li>Accueil</li>
             <li>Film</li>
             <li>Série</li>
+            <li>Profil</li>
         </ul>
     </nav>
     
@@ -22,13 +23,37 @@
     </header>
 
     <main class="carrousels">
-            <h2>Tendances du moment</h2>
-            <div class="carousel">
+
+        <!-- trending --> 
+            <div class="carousel" data-url="https://api.themoviedb.org/3/trending/movie/week?language=fr-FR&page=1">
+                <h2>Tendances du moment</h2>
                 <button class="carousel-btn left">&#10094;</button>
+                <div class="movie-row"></div>
+                <button class="carousel-btn right">&#10095;</button>
+                </div>
+                
+        <!--popular movie-->
+            <div class="carousel" data-url="https://api.themoviedb.org/3/movie/popular?language=fr">
+                <h2>Films populaire</h2>
+                <button class="carousel-btn left">&#10094;</button>
+                <div class="movie-row"></div>
+                <button class="carousel-btn right">&#10095;</button>
+                </div>
 
-                <div id="movie-row" class="movie-row"></div>
+        <!-- popular serie -->
+            <div class="carousel" data-url="https://api.themoviedb.org/3/tv/popular?language=fr-FR&page=1">
+                <h2>Série populaire</h2>
+                <button class="carousel-btn left">&#10094;</button>
+                <div class="movie-row"></div>
+                <button class="carousel-btn right">&#10095;</button>
+                </div>
 
-                    <button class="carousel-btn right">&#10095;</button>
+        <!-- top rating -->
+            <div class="carousel" data-url="https://api.themoviedb.org/3/movie/top_rated?language=fr-FR&page=1">
+                <h2>Contenus mieux noté</h2>
+                <button class="carousel-btn left">&#10094;</button>
+                <div class="movie-row"></div>
+                <button class="carousel-btn right">&#10095;</button>
                 </div>
     </main>
     <script src="script.js"></script>
