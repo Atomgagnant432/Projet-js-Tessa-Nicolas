@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session')
 const app = express();
-const authRoutes = require('./routes/routeauth');
+const authRoutes = require('./src/routes/routeauth');
 
 app.use(express.json());
 app.use(express.static('src/HomePage')); 
