@@ -1,10 +1,4 @@
-// 1. Configuration de l'API
-const API_URL = "https://api.themoviedb.org/3/movie/popular?language=fr-FR&page=1";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
-const row = document.getElementById('movie-row');
-const leftBtn = document.querySelector('.carousel-btn.left');
-const rightBtn = document.querySelector('.carousel-btn.right');
-
 
 // Récupère la clé depuis le serveur
 async function init() {
@@ -12,20 +6,20 @@ async function init() {
     const config = await res.json();
     const API_KEY = config.tmdbKey;
 
+    const carousels = document.querySelectorAll('.carousel');
+
 // 2. Fonction pour récupérer les données
-async function getMovies() {
+async function getMovies(url, row) {
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(url, {
             headers: {
                 Authorization: `Bearer ${API_KEY}`,
                 "Content-Type": "application/json"
             }
         });
 
-        if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
-
         const data = await response.json();
-        displayMovies(data.results); 
+        displayMovies(data.results, row); 
 
     } catch (error) {
         console.error("Erreur lors de la récupération :", error);
@@ -34,8 +28,7 @@ async function getMovies() {
 }
 
 // 3. Fonction pour afficher les films
-function displayMovies(movies) {
-    console.log("Films reçus :", movies);
+function displayMovies(movies, row) {
     row.innerHTML = "";
 
     movies.forEach(movie => {
@@ -56,13 +49,22 @@ function displayMovies(movies) {
     });
 }
 // 4. Evenement de Rotation des boutons
-leftBtn.addEventListener('click', () => {
-  row.scrollLeft -= 300;
-});
+carousels.forEach(carousel => {
+        const row = carousel.querySelector('.movie-row');
+        const leftBtn = carousel.querySelector('.left');
+        const rightBtn = carousel.querySelector('.right');
 
-rightBtn.addEventListener('click', () => {
-  row.scrollLeft += 300;
-});
-getMovies();
-}
+        const url = carousel.dataset.url;
+
+        leftBtn.addEventListener('click', () => {
+            row.scrollLeft -= 300;
+        });
+
+        rightBtn.addEventListener('click', () => {  
+            row.scrollLeft += 300;
+        });
+
+        getMovies(url, row);
+        });
+    }
 init();
