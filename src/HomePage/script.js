@@ -16,6 +16,8 @@ async function init() {
 async function getMovies(url, row) {
     try {
         const response = await fetch(`/api/tmdb-proxy-list/${url}`);
+        const myCard = createCard(movieData, 'movie');
+        document.querySelector('.container').appendChild(myCard);
         const data = await response.json();
 
         displayMovies(data.results, row); 
