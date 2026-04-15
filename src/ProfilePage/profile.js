@@ -1,4 +1,4 @@
-import { loadFavorites, toggleFavorite, updateFavBtn, isFavorite } from "../Shared/favorites.js";
+import { loadFavorites, toggleFavorite, getFavorites } from "../Shared/favorite.js";
 
 const IMG_BASE = "https://image.tmdb.org/t/p/w300";
 
@@ -10,14 +10,14 @@ const IMG_BASE = "https://image.tmdb.org/t/p/w300";
 })();
 
 async function checkAuth() {
-  const res = await fetch("/api/me", { credentials: "include" });
+  const res = await fetch("/api/auth/me", { credentials: "include" });
   if (!res.ok) {
     window.location.href = "../LoginPage/index.html";
     return;
   }
-  const { user } = await res.json();
-  document.getElementById("user-name").textContent = user.username;
-  document.getElementById("profile-username").textContent = user.username;
+  const user = await res.json();
+  document.getElementById("user-name").textContent = user.pseudo;
+  document.getElementById("profile-username").textContent = user.pseudo;
   document.getElementById("profile-email").textContent = user.email;
 }
 
@@ -25,6 +25,7 @@ async function renderFavorites() {
   const carousel = document.getElementById("favorites-carousel");
   const emptyState = document.getElementById("favorites-empty");
   const wrapper = document.getElementById("favorites-carousel-wrapper");
+  const favorites = getFavorites();
 
   if (!favorites || favorites.length === 0) {
     emptyState.classList.remove("hidden");
@@ -37,8 +38,8 @@ async function renderFavorites() {
   carousel.innerHTML = "";
   
   const details = await Promise.all(
-    favoritesCache.map(({ tmdbId, mediaType }) =>
-      fetch(`/api/tmdb-proxy/${mediaType}/${tmdbId}`)
+    favorites.map(({ tmdbId, mediaType }) =>
+      fetch(`/api/auth/tmdb-proxy/${mediaType}/${tmdbId}`, { credentials: "include" })
         .then((r) => r.json())
         .then((d) => ({ ...d, mediaType }))
         .catch(() => null)
@@ -99,7 +100,7 @@ function createFavCard(item) {
 
 function setupLogout() {
   document.getElementById("logout-btn").addEventListener("click", async () => {
-    await fetch("/api/logout", { method: "POST", credentials: "include" });
+    await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
     window.location.href = "../LoginPage/index.html";
   });
 }
