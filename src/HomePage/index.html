@@ -8,6 +8,9 @@
 <body>
     <nav class="navbar">
         <div class="logo"><span>NetflixLight</span></div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher un film ou une série...">
+        </div>
         <ul class="nav-links">
             <li>Accueil</li>
             <li>Film</li>
@@ -21,6 +24,8 @@
         <h1>un projet étudiant</h1>
         </div>
     </header>
+
+    <section id="search-results" class="movie-row"></section>
 
     <main class="carrousels">
 
@@ -56,6 +61,7 @@
                 <button class="carousel-btn right">&#10095;</button>
                 </div>
     </main>
-    <script type="module" src="script.js"></script>
+    <script src="script.js" defer></script>
+    <script src="search.js" defer></script>
 </body>
 </html>
