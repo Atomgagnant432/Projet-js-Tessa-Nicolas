@@ -1,5 +1,5 @@
-@import '../shared/base.css';
-@import '../shared/components.css';
+@import '../Shared/base.css';
+@import '../Shared/components.css';
 
 .profile-main {
   padding: 80px 2rem 4rem;

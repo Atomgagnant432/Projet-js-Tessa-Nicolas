@@ -1,11 +1,19 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const session = require('express-session')
 const app = express();
 const authRoutes = require('./src/routes/routeauth');
 
 app.use(express.json());
-app.use(express.static('src/LoginPage'));
+
+// Sert toutes les pages statiques (LoginPage, HomePage, Shared, etc.)
+app.use(express.static(path.join(__dirname, 'src')));
+
+// Page par défaut
+app.get('/', (req, res) => {
+  res.redirect('/LoginPage/index.html');
+});
 
 app.use(session({
   secret: 'netflixlight_secret_key',
