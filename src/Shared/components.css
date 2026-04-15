@@ -1,6 +1,5 @@
 @import './variables.css';
  
-
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   display: flex; align-items: center; justify-content: space-between;
@@ -21,7 +20,6 @@
 }
 .navbar__links a:hover, .navbar__links a.active { color: var(--accent); }
  
-
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
   padding: .65rem 1.6rem; border-radius: var(--radius-sm);
@@ -49,7 +47,6 @@
 .btn--lg   { padding: .9rem 2.2rem; font-size: 1.05rem; }
 .btn--full { width: 100%; }
  
-
 .form-group { display: flex; flex-direction: column; gap: .4rem; }
 .form-group label {
   font-family: var(--font-ui); font-size: .82rem; font-weight: 600;
@@ -69,7 +66,6 @@
   box-shadow: 0 0 0 3px var(--accent-glow), inset 0 1px 4px rgba(10,14,26,.06);
 }
  
-
 .checkbox-group { display: flex; align-items: center; gap: .6rem; }
 .checkbox-group input[type="checkbox"] {
   appearance: none; width: 1.1rem; height: 1.1rem;
@@ -92,7 +88,6 @@
   cursor: pointer; letter-spacing: 0; text-transform: none; font-weight: 400;
 }
  
-
 .card {
   background: var(--surface); border: 2px solid var(--border);
   border-radius: var(--radius-md); overflow: hidden;
@@ -123,8 +118,15 @@
   text-shadow: none; box-shadow: 0 2px 8px rgba(26,58,255,.4);
 }
  
+.carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0.5rem 0 1rem;
+  scrollbar-width: none;
+}
 
-.carousel { padding: 2rem 0; }
 .carousel__header {
   display: flex; align-items: baseline; gap: 1.2rem; padding: 0 4vw 1rem;
 }
@@ -136,9 +138,132 @@
 }
 .carousel__track::-webkit-scrollbar { display: none; }
 .carousel__track .card { flex: 0 0 clamp(160px, 20vw, 240px); scroll-snap-align: start; }
- 
 
 @media (max-width: 768px) {
   .navbar__links { display: none; }
   .carousel__track .card { flex: 0 0 clamp(140px, 42vw, 200px); }
+}
+
+.carousel-section {
+  margin-bottom: 3rem;
+}
+
+.carousel-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carousel::-webkit-scrollbar { display: none; }
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.carousel-arrow:hover { background: rgba(0, 0, 0, 0.9); }
+.arrow-left  { left: -1rem; }
+.arrow-right { right: -1rem; }
+
+.card {
+  position: relative;
+  min-width: 160px;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-poster-wrapper {
+  position: relative;
+}
+
+.card-poster {
+  width: 160px;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.card:hover .card-poster {
+  transform: scale(1.04);
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(26,58,255,.4));
+  padding: 1rem 0.6rem 0.6rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 0 0 8px 8px;
+}
+
+.card:hover .card-overlay {
+  opacity: 1;
+}
+
+.card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 0.2rem;
+}
+
+.card-meta {
+  font-size: 0.75rem;
+  color: #ccc;
+  margin: 0;
+}
+
+.fav-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.15s;
+  z-index: 3;
+  opacity: 0;
+}
+
+.card:hover .fav-btn,
+.fav-btn.fav-active {
+  opacity: 1;
+}
+
+.fav-btn:hover {
+  background: rgba(26,58,255,.4);
+  transform: scale(1.15);
+}
+
+.fav-btn.fav-active .fav-icon {
+  filter: none;
 }
