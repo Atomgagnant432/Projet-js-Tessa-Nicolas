@@ -2,23 +2,22 @@ const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 
 // Récupère la clé depuis le serveur
 async function init() {
-    const res = await fetch('/api/config');
-    const config = await res.json();
-    const API_KEY = config.tmdbKey;
-
     const carousels = document.querySelectorAll('.carousel');
+
+    carousels.forEach(carousel => {
+        const row = carousel.querySelector('.movie-row');
+        const url = carousel.dataset.url;
+        
+        getMovies(url, row);
+    });
+}
 
 // 2. Fonction pour récupérer les données
 async function getMovies(url, row) {
     try {
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${API_KEY}`,
-                "Content-Type": "application/json"
-            }
-        });
-
+        const response = await fetch(`/api/tmdb-proxy-list/${url}`);
         const data = await response.json();
+
         displayMovies(data.results, row); 
 
     } catch (error) {
@@ -66,5 +65,44 @@ carousels.forEach(carousel => {
 
         getMovies(url, row);
         });
-    }
+
+import { loadFavorites, createFavButton } from "../Shared/favorites.js";
+
+await loadFavorites();
+
+function createCard(item, mediaType) {
+  const tmdbId = item.id;
+  const title = item.title || item.name;
+  const poster = item.poster_path
+    ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+    : "/static/no-poster.png"
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <div class="card-poster-wrapper">
+      <img
+        src="${poster}"
+        alt="${title}"
+        class="card-poster"
+        loading="lazy"
+      />
+      <div class="card-overlay">
+        <p class="card-title">${title}</p>
+      </div>
+    </div>
+  `;
+
+  const favBtn = createFavButton(tmdbId, mediaType);
+  card.appendChild(favBtn);
+
+  card.querySelector(".card-poster-wrapper").addEventListener("click", () => {
+    window.location.href = `../DetailPage/index.html?id=${tmdbId}&type=${mediaType}`;
+  });
+
+  return card;
+}
+
+
 init();
