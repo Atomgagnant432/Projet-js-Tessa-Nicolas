@@ -292,3 +292,120 @@ body {
     flex-shrink: 0;
     width: 180px;
 }
+
+.detail-backdrop {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  z-index: -1;
+  filter: brightness(0.3);
+}
+ 
+.detail-main {
+  padding: 100px 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: white;
+}
+ 
+.detail-content {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+ 
+.detail-poster {
+  width: 220px;
+  min-width: 220px;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+ 
+.detail-info h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+ 
+.detail-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 0.5rem;
+}
+ 
+.detail-genres {
+  color: var(--color-primary, #e50914);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+ 
+.detail-overview {
+  line-height: 1.7;
+  color: #ddd;
+  max-width: 600px;
+  margin-bottom: 1.5rem;
+}
+
+.fav-btn-large {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s, border-color 0.2s;
+  font-weight: 600;
+}
+ 
+.fav-btn-large.fav-active {
+  background: var(--color-primary, #e50914);
+  border-color: var(--color-primary, #e50914);
+}
+ 
+.fav-btn-large:hover {
+  opacity: 0.85;
+}
+ 
+.detail-section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+ 
+.cast-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+ 
+.cast-card {
+  min-width: 110px;
+  text-align: center;
+}
+ 
+.cast-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 0.4rem;
+}
+ 
+.cast-name {
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+ 
+.cast-character {
+  font-size: 0.75rem;
+  color: #aaa;
+}
