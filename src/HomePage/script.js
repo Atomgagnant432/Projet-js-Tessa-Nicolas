@@ -35,6 +35,11 @@ function displayMovies(movies, row) {
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie-card');
 
+            movieEl.addEventListener('click', () => {
+// redirection vers une page détail avec l'id du film
+            window.location.href = `movie.html?id=${movie.id}`;
+            });
+
         const posterUrl = movie.poster_path
             ? `${IMG_PATH}${movie.poster_path}`
             : "https://via.placeholder.com/500x750?text=Pas+d'image";
