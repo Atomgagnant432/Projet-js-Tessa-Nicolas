@@ -13,7 +13,7 @@ async function init() {
       const row = carousel.querySelector('.movie-row');
       const url = carousel.dataset.url;
         
-        getMovies(url, row);
+        getMovies(url, row, type);
     });
 }
 
@@ -70,10 +70,10 @@ carousels.forEach(carousel => {
             row.scrollLeft += 300;
         });
 
-        getMovies(url, row);
+        getMovies(url, row, type);
         });
 
-function createCard(item, mediaType) {
+function createCard(item, type) {
   const tmdbId = item.id;
   const title = item.title || item.name;
   const poster = item.poster_path
@@ -97,11 +97,11 @@ function createCard(item, mediaType) {
     </div>
   `;
 
-  const favBtn = createFavButton(tmdbId, mediaType);
+  const favBtn = createFavButton(tmdbId, type);
   card.appendChild(favBtn);
 
   card.querySelector(".card-poster-wrapper").addEventListener("click", () => {
-    window.location.href = `../DetailPage/index.html?id=${tmdbId}&type=${mediaType}`;
+    window.location.href = `../DetailPage/index.html?id=${tmdbId}&type=${type}`;
   });
 
   return card;
