@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Profil — NetflixLight</title>
+  <link rel="stylesheet" href="../../src/Shared/base.css" />
+  <link rel="stylesheet" href="../../src/Shared/variables.css" />
+  <link rel="stylesheet" href="../../src/Shared/components.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="../HomePage/index.html" class="logo">NetflixLight</a>
+    <nav>
+      <a href="../HomePage/index.html">Accueil</a>
+      <span id="user-name" class="user-name">Chargement...</span>
+      <button id="logout-btn" class="btn-logout">Déconnexion</button>
+    </nav>
+  </header>
+
+  <main class="profile-main">
+    <section class="profile-hero">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-info">
+        <h1 id="profile-username">Mon Profil</h1>
+        <p id="profile-email" class="profile-email"></p>
+      </div>
+    </section>
+
+    <section class="carousel-section" id="favorites-section">
+      <h2 class="carousel-title">Ma Watchlist</h2>
+
+      <div id="favorites-empty" class="favorites-empty hidden">
+        <p>Vous n'avez pas encore de favoris.</p>
+        <a href="../HomePage/index.html" class="btn-primary">Explorer nos films et séries</a>
+      </div>
+
+      <div class="carousel-wrapper" id="favorites-carousel-wrapper">
+        <button class="carousel-arrow arrow-left" id="fav-arrow-left">&#8249;</button>
+        <div class="carousel" id="favorites-carousel"></div>
+        <button class="carousel-arrow arrow-right" id="fav-arrow-right">&#8250;</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./profile.js"></script>
+</body>
+</html>

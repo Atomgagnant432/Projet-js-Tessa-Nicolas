@@ -5,12 +5,7 @@ const app = express();
 const authRoutes = require('./src/routes/routeauth');
 
 app.use(express.json());
-app.use(express.static('src/HomePage')); 
-
-// Route qui expose la clé au front
-app.get('/api/config', (req, res) => {
-    res.json({ tmdbKey: process.env.Jeton_tmdb });
-});
+app.use(express.static('src/LoginPage'));
 
 app.use(session({
   secret: 'netflixlight_secret_key',

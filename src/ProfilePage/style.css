@@ -1,0 +1,78 @@
+@import '../shared/base.css';
+@import '../shared/components.css';
+
+.profile-main {
+  padding: 80px 2rem 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.profile-avatar {
+  font-size: 5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-info h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.profile-email {
+  color: var(--color-text-muted, #aaa);
+  margin: 0.25rem 0 0;
+}
+
+.favorites-empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-muted, #aaa);
+}
+
+.favorites-empty p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  background: var(--color-primary, #e50914);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+@keyframes card-fade-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.85); }
+}
+
+.card-removing {
+  animation: card-fade-out 0.3s ease forwards;
+}
+
+.hidden {
+  display: none !important;
+}

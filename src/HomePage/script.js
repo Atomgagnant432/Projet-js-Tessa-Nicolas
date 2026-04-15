@@ -1,26 +1,34 @@
+import { loadFavorites, createFavButton } from "../Shared/favorites.js";
+
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 
 async function init() {
-  const res = await fetch('/api/config');
-  const config = await res.json();
-  const API_KEY = config.tmdbKey;
 
+  await loadFavorites();
+  
   const carousels = document.querySelectorAll('.carousel');
 
-  async function getMovies(url, row, type) {
-    try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-          "Content-Type": "application/json"
-        }
-      });
+  carousels.forEach(carousel => {
+      const row = carousel.querySelector('.movie-row');
+      const url = carousel.dataset.url;
+        
+        getMovies(url, row);
+    });
+}
 
-      const data = await response.json();
-      displayMovies(data.results, row, type);
+// 2. Fonction pour récupérer les données
+async function getMovies(url, row, type) {
+    try {
+        const response = await fetch(`/api/tmdb-proxy-list/${url}`);
+        const data = await response.json();
+        const myCard = createCard(movieData, 'movie');
+        document.querySelector('.container').appendChild(myCard);
+
+        displayMovies(data.results, row, type); 
+
     } catch (error) {
-      console.error("Erreur lors de la récupération :", error);
-      row.innerHTML = "<p>Impossible de charger les films pour le moment.</p>";
+        console.error("Erreur lors de la récupération :", error);
+        row.innerHTML = "<p>Impossible de charger les contenus pour le moment.</p>";
     }
   }
 
@@ -68,8 +76,42 @@ async function init() {
       row.scrollLeft += 300;
     });
 
-    getMovies(url, row, type);
+        getMovies(url, row, type);
+        });
+
+function createCard(item, type) {
+  const tmdbId = item.id;
+  const title = item.title || item.name;
+  const poster = item.poster_path
+    ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+    : "/static/no-poster.png"
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <div class="card-poster-wrapper">
+      <img
+        src="${poster}"
+        alt="${title}"
+        class="card-poster"
+        loading="lazy"
+      />
+      <div class="card-overlay">
+        <p class="card-title">${title}</p>
+      </div>
+    </div>
+  `;
+
+  const favBtn = createFavButton(tmdbId, );
+  card.appendChild(favBtn);
+
+  card.querySelector(".card-poster-wrapper").addEventListener("click", () => {
+    window.location.href = `../DetailPage/index.html?id=${tmdbId}&type=${type}`;
   });
+
+  return card;
 }
+
 
 init();
