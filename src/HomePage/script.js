@@ -9,7 +9,7 @@ async function init() {
     const carousels = document.querySelectorAll('.carousel');
 
 // 2. Fonction pour récupérer les données
-async function getMovies(url, row) {
+async function getMovies(url, row, type) {
     try {
         const response = await fetch(url, {
             headers: {
@@ -19,7 +19,7 @@ async function getMovies(url, row) {
         });
 
         const data = await response.json();
-        displayMovies(data.results, row); 
+        displayMovies(data.results, row, type); 
 
     } catch (error) {
         console.error("Erreur lors de la récupération :", error);
@@ -28,27 +28,27 @@ async function getMovies(url, row) {
 }
 
 // 3. Fonction pour afficher les films
-function displayMovies(movies, row) {
+function displayMovies(movies, row, type) {
     row.innerHTML = "";
 
     movies.forEach(movie => {
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie-card');
 
-            movieEl.addEventListener('click', () => {
-// redirection vers une page détail avec l'id du film
-            window.location.href = `movie.html?id=${movie.id}`;
-            });
+        movieEl.addEventListener('click', () => {
+            const type = url.includes('/tv/') ? 'tv' : 'movie';
+            window.location.href = `movie.html?id=${movie.id}&type=${type}`;
+        });
 
         const posterUrl = movie.poster_path
             ? `${IMG_PATH}${movie.poster_path}`
             : "https://via.placeholder.com/500x750?text=Pas+d'image";
 
         movieEl.innerHTML = `
-            <img src="${posterUrl}" alt="${movie.title}">
+            <img src="${posterUrl}" alt="${title || 'Affiche'}">
             <div class="card-info">
-              <div class="card-title">${movie.title}</div>
-              <div class="card-meta">${movie.vote_average.toFixed(1)}</div>
+              <div class="card-title">${title || "Titre indisponible"}</div>
+              <div class="card-meta">${rating}</div>
             </div>`;
         row.appendChild(movieEl);
     });
@@ -58,8 +58,8 @@ carousels.forEach(carousel => {
         const row = carousel.querySelector('.movie-row');
         const leftBtn = carousel.querySelector('.left');
         const rightBtn = carousel.querySelector('.right');
-
         const url = carousel.dataset.url;
+        const type = url.includes('/tv/') ? 'tv' : 'movie';
 
         leftBtn.addEventListener('click', () => {
             row.scrollLeft -= 300;

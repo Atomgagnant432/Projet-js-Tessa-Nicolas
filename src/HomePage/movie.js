@@ -1,14 +1,15 @@
 const IMG_PATH = "https://image.tmdb.org/t/p/original";
 
 async function init() {
-  const res = await fetch('/api/config');
-  const config = await res.json();
-  const API_KEY = config.tmdbKey;
+    const res = await fetch('/api/config');
+    const config = await res.json();
+    const API_KEY = config.tmdbKey;
 
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const type = params.get('type') || 'movie';
 
-  const detail = document.getElementById('movie-detail');
+    const detail = document.getElementById('movie-detail');
 
   if (!id) {
     detail.innerHTML = "<p>Film introuvable.</p>";
@@ -16,21 +17,27 @@ async function init() {
   }
 
   try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`,
-      {
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-          "Content-Type": "application/json"
-        }
+    const endpoint = type === 'tv'
+      ? `https://api.themoviedb.org/3/tv/${id}?language=fr-FR`
+      : `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`;
+
+    const response = await fetch(endpoint, {
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        "Content-Type": "application/json"
       }
-    );
+    });
 
-    const movie = await response.json();
+    const data = await response.json();
+ const title = type === 'tv' ? data.name : data.title;
+    const date = type === 'tv' ? data.first_air_date : data.release_date;
+    const duration = type === 'tv'
+      ? `${data.number_of_seasons || 0} saisons / ${data.number_of_episodes || 0} épisodes`
+      : `${data.runtime || "?"} min`;
 
-    const backdrop = movie.backdrop_path
-      ? `${IMG_PATH}${movie.backdrop_path}`
-      : "";
+    const genres = data.genres?.map(g => g.name).join(", ") || "Genres inconnus";
+    const backdrop = data.backdrop_path ? `${IMG_PATH}${data.backdrop_path}` : "";
+    const poster = data.poster_path ? `${IMG_PATH}${data.poster_path}` : "";
 
     detail.innerHTML = `
       <section class="movie-detail">
@@ -38,23 +45,19 @@ async function init() {
         <div class="movie-overlay"></div>
 
         <div class="movie-content">
-          <h1>${movie.title || "Titre indisponible"}</h1>
-
+          <h1>${title || "Titre indisponible"}</h1>
           <div class="movie-meta">
-            <span>${movie.release_date || "Date inconnue"}</span>
-            <span>${movie.runtime ? movie.runtime + " min" : "Durée inconnue"}</span>
-            <span>Note : ${movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}</span>
+            <span>${date || "Date inconnue"}</span>
+            <span>${duration}</span>
+            <span>Note : ${data.vote_average ? data.vote_average.toFixed(1) : "N/A"}</span>
           </div>
-
-          <p class="movie-overview">
-            ${movie.overview || "Aucune description disponible."}
-          </p>
+          <p class="movie-overview">${data.overview || "Aucune description disponible."}</p>
         </div>
       </section>
     `;
   } catch (error) {
     console.error(error);
-    detail.innerHTML = "<p>Impossible de charger les données du film.</p>";
+    detail.innerHTML = "<p>Impossible de charger les données.</p>";
   }
 }
 
