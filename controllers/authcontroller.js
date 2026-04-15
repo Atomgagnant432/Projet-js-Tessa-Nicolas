@@ -1,18 +1,7 @@
-const fs = require('fs');
-const path = require('path');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
-const DB_PATH = path.join(__dirname, '../data/users.json');
-
-function getUsers() {
-  if (!fs.existsSync(DB_PATH)) return [];
-  return JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
-}
-
-function saveUsers(users) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(users, null, 2));
-}
+const UserModel = require("../src/model/user");
 
 exports.register = async (req, res) => {
   const { email, pseudo, password } = req.body;
@@ -20,16 +9,12 @@ exports.register = async (req, res) => {
   if (!email || !pseudo || !password)
     return res.status(400).json({ error: 'Tous les champs sont demandés' });
 
-  const users = getUsers();
-
-  if (users.find(u => u.email === email))
+  if (UserModel.findByEmail(email))
     return res.status(409).json({ error: 'Email déjà utilisé' });
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = { id: uuidv4(), email, pseudo, password: hashedPassword };
-
-  users.push(newUser);
-  saveUsers(users);
+  const newUser = { id: uuidv4(), email, pseudo, password: hashedPassword, favorites: [] };
+  UserModel.create(newUser);
 
   req.session.userId = newUser.id;
 
@@ -39,8 +24,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  const users = getUsers();
-  const user = users.find(u => u.email === email);
+  const user = UserModel.findByEmail(email);
 
   if (!user) return res.status(401).json({ error: 'Email ou mot de passe incorrect' });
 
@@ -59,8 +43,7 @@ exports.logout = (req, res) => {
 };
 
 exports.me = (req, res) => {
-  const users = getUsers();
-  const user = users.find(u => u.id === req.session.userId);
+  const user = UserModel.findById(req.session.userId);
   if (!user) return res.status(404).json({ error: 'Utilisateur introuvable' });
   res.json({ id: user.id, email: user.email, pseudo: user.pseudo });
 };
