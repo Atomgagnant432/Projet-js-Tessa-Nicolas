@@ -5,7 +5,7 @@ const app = express();
 const authRoutes = require('./src/routes/routeauth');
 
 app.use(express.json());
-app.use(express.static('src/HomePage'));
+app.use(express.static('src/LoginPage'));
 
 app.use(session({
   secret: 'netflixlight_secret_key',
