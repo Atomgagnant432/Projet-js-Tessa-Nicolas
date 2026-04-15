@@ -21,15 +21,29 @@ async function init() {
       ? `https://api.themoviedb.org/3/tv/${id}?language=fr-FR`
       : `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`;
 
-    const response = await fetch(endpoint, {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        "Content-Type": "application/json"
-      }
-    });
+      const creditsEndpoint = type === 'tv'
+      ? `https://api.themoviedb.org/3/tv/${id}/credits?language=fr-FR`
+      : `https://api.themoviedb.org/3/movie/${id}/credits?language=fr-FR`;
 
+    const [response, creditsRes] = await Promise.all([
+      fetch(endpoint, {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          "Content-Type": "application/json"
+        }
+      }),
+      fetch(creditsEndpoint, {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          "Content-Type": "application/json"
+        }
+      })
+    ]);
     const data = await response.json();
- const title = type === 'tv' ? data.name : data.title;
+    const credits = await creditsRes.json();
+    const cast = (credits.cast || []).slice(0, 8);
+
+    const title = type === 'tv' ? data.name : data.title;
     const date = type === 'tv' ? data.first_air_date : data.release_date;
     const duration = type === 'tv'
       ? `${data.number_of_seasons || 0} saisons / ${data.number_of_episodes || 0} épisodes`
@@ -39,19 +53,46 @@ async function init() {
     const backdrop = data.backdrop_path ? `${IMG_PATH}${data.backdrop_path}` : "";
     const poster = data.poster_path ? `${IMG_PATH}${data.poster_path}` : "";
 
+    const castHTML = cast.map(actor => `
+      <div class="actor-card">
+        <img src="${
+          actor.profile_path
+            ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
+            : 'https://via.placeholder.com/185x278?text=Acteur'
+        }" alt="${actor.name}">
+        <div class="actor-info">
+          <div class="actor-name">${actor.name}</div>
+          <div class="actor-role">${actor.character || "Rôle inconnu"}</div>
+        </div>
+      </div>
+    `).join("");
+
     detail.innerHTML = `
       <section class="movie-detail">
         <div class="movie-backdrop" style="background-image:url('${backdrop}')"></div>
         <div class="movie-overlay"></div>
 
         <div class="movie-content">
-          <h1>${title || "Titre indisponible"}</h1>
-          <div class="movie-meta">
-            <span>${date || "Date inconnue"}</span>
-            <span>${duration}</span>
-            <span>Note : ${data.vote_average ? data.vote_average.toFixed(1) : "N/A"}</span>
+          <div class="movie-main">
+            <img class="movie-poster" src="${poster}" alt="${title || 'Affiche'}">
+            <div class="movie-text">
+              <h1>${title || "Titre indisponible"}</h1>
+              <div class="movie-meta">
+                <span>${date || "Date inconnue"}</span>
+                <span>${duration}</span>
+                <span>Note : ${data.vote_average ? data.vote_average.toFixed(1) : "N/A"}</span>
+              </div>
+              <p class="movie-genres">${genres}</p>
+              <p class="movie-overview">${data.overview || "Aucune description disponible."}</p>
+            </div>
           </div>
-          <p class="movie-overview">${data.overview || "Aucune description disponible."}</p>
+
+          <div class="cast-section">
+            <h2>Acteurs</h2>
+            <div class="cast-row">
+              ${castHTML}
+            </div>
+          </div>
         </div>
       </section>
     `;
