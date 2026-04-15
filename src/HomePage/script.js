@@ -117,4 +117,4 @@ function createCard(item, type) {
 }
 
 
-init();
+init();}
