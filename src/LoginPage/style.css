@@ -6,8 +6,8 @@
   display: flex; align-items: center; justify-content: center;
   padding: 2rem 1rem;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,58,255,.12), transparent 70%),
-    linear-gradient(180deg, #dce6ff 0%, #f0f4ff 100%);
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(74,157,255,.18), transparent 70%),
+    linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
   position: relative; overflow: hidden;
 }
 
@@ -19,10 +19,10 @@
 
 .auth-card {
   position: relative; z-index: 1; width: 100%; max-width: 440px;
-  background: rgba(255,255,255,.88); backdrop-filter: blur(18px);
-  border: 2px solid var(--border); border-radius: var(--radius-lg);
+  background: rgba(13, 34, 96, 0.88); backdrop-filter: blur(18px);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
   padding: 2.5rem 2rem;
-  box-shadow: 0 12px 48px rgba(26,58,255,.18), 0 2px 12px rgba(10,14,26,.08);
+  box-shadow: var(--shadow-card);
 }
  
 .auth-card__logo {

@@ -1,6 +1,7 @@
 async function register(email, pseudo, password) {
   const res = await fetch('/api/auth/register', {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, pseudo, password })
   });
@@ -12,6 +13,7 @@ async function register(email, pseudo, password) {
 async function login(email, password) {
   const res = await fetch('/api/auth/login', {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   });
@@ -21,12 +23,12 @@ async function login(email, password) {
 }
 
 async function logout() {
-  await fetch('/api/auth/logout', { method: 'POST' });
+  await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
   window.location.href = 'index.html';
 }
 
 async function checkAuth() {
-  const res = await fetch('/api/auth/me');
+  const res = await fetch('/api/auth/me', { credentials: 'include' });
   if (!res.ok) {
     window.location.href = 'index.html';
     return null;
