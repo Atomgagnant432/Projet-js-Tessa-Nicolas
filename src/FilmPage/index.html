@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Films — NetflixLight</title>
+  <link rel="stylesheet" href="/Shared/variables.css" />
+  <link rel="stylesheet" href="/Shared/base.css" />
+  <link rel="stylesheet" href="/Shared/components.css" />
+  <link rel="stylesheet" href="/FilmPage/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/HomePage/index.html" class="navbar__logo">NetflixLight</a>
+    <ul class="navbar__links">
+      <li><a href="/HomePage/index.html">Accueil</a></li>
+      <li><a class="active" href="/FilmPage/index.html">Films</a></li>
+      <li><a href="/SeriePage/index.html">Séries</a></li>
+      <li><a href="/ProfilePage/index.html">Profil</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-hero">
+    <h1>Films</h1>
+    <p>Explorez des carrousels par genre.</p>
+  </header>
+
+  <main class="page-content">
+    <div class="carousel" data-url="https://api.themoviedb.org/3/discover/movie?language=fr-FR&sort_by=popularity.desc&with_genres=28&page=1" data-type="movie">
+      <h2>Action</h2>
+      <button class="carousel-btn left" aria-label="Précédent">&#10094;</button>
+      <div class="movie-row"></div>
+      <button class="carousel-btn right" aria-label="Suivant">&#10095;</button>
+    </div>
+
+    <div class="carousel" data-url="https://api.themoviedb.org/3/discover/movie?language=fr-FR&sort_by=popularity.desc&with_genres=35&page=1" data-type="movie">
+      <h2>Comédie</h2>
+      <button class="carousel-btn left" aria-label="Précédent">&#10094;</button>
+      <div class="movie-row"></div>
+      <button class="carousel-btn right" aria-label="Suivant">&#10095;</button>
+    </div>
+
+    <div class="carousel" data-url="https://api.themoviedb.org/3/discover/movie?language=fr-FR&sort_by=popularity.desc&with_genres=18&page=1" data-type="movie">
+      <h2>Drame</h2>
+      <button class="carousel-btn left" aria-label="Précédent">&#10094;</button>
+      <div class="movie-row"></div>
+      <button class="carousel-btn right" aria-label="Suivant">&#10095;</button>
+    </div>
+
+    <div class="carousel" data-url="https://api.themoviedb.org/3/discover/movie?language=fr-FR&sort_by=popularity.desc&with_genres=27&page=1" data-type="movie">
+      <h2>Horreur</h2>
+      <button class="carousel-btn left" aria-label="Précédent">&#10094;</button>
+      <div class="movie-row"></div>
+      <button class="carousel-btn right" aria-label="Suivant">&#10095;</button>
+    </div>
+
+    <div class="carousel" data-url="https://api.themoviedb.org/3/discover/movie?language=fr-FR&sort_by=popularity.desc&with_genres=16&page=1" data-type="movie">
+      <h2>Animation</h2>
+      <button class="carousel-btn left" aria-label="Précédent">&#10094;</button>
+      <div class="movie-row"></div>
+      <button class="carousel-btn right" aria-label="Suivant">&#10095;</button>
+    </div>
+  </main>
+
+  <script type="module" src="/FilmPage/script.js"></script>
+</body>
+</html>
+
