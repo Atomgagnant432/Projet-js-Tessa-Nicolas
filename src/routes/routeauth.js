@@ -11,6 +11,7 @@ router.post('/logout', authController.logout);
 router.get('/me', isAuth, authController.me);
 
 router.get('/tmdb-proxy/:type/:id', isAuth, movieController.getMovieDetails);
+router.get('/tmdb-proxy-list', isAuth, movieController.proxyList);
 router.get("/favorites", isAuth, favController.getFavorites);
 router.post("/favorites/toggle", isAuth, favController.toggleFavorite);
 

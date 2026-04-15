@@ -1,8 +1,10 @@
 let favoritesCache = [];
 
+export const getFavorites = () => favoritesCache;
+
 export const loadFavorites = async () => {
   try {
-    const res = await fetch("/api/favorites", { credentials: "include" });
+    const res = await fetch("/api/auth/favorites", { credentials: "include" });
     if (!res.ok) {
       favoritesCache = [];
       return;
@@ -22,7 +24,7 @@ export const isFavorite = (tmdbId, mediaType) => {
 
 export const toggleFavorite = async (tmdbId, mediaType, btn = null) => {
   try {
-    const res = await fetch("/api/favorites/toggle", {
+    const res = await fetch("/api/auth/favorites/toggle", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -30,7 +32,7 @@ export const toggleFavorite = async (tmdbId, mediaType, btn = null) => {
     });
 
     if (res.status === 401) {
-      window.location.href = "/src/LoginPage/index.html";
+      window.location.href = "/LoginPage/index.html";
       return null;
     }
 
