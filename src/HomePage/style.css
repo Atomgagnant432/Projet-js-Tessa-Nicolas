@@ -387,3 +387,28 @@ body {
   font-size: 0.85rem;
   opacity: 0.8;
 }
+
+.search-bar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  min-width: 280px;
+}
+
+.search-bar button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#search-results {
+  margin-top: 1.5rem;
+}
