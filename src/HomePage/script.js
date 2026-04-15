@@ -1,12 +1,17 @@
+import { loadFavorites, createFavButton } from "../Shared/favorites.js";
+
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 
 // Récupère la clé depuis le serveur
 async function init() {
-    const carousels = document.querySelectorAll('.carousel');
 
-    carousels.forEach(carousel => {
-        const row = carousel.querySelector('.movie-row');
-        const url = carousel.dataset.url;
+  await loadFavorites();
+  
+  const carousels = document.querySelectorAll('.carousel');
+
+  carousels.forEach(carousel => {
+      const row = carousel.querySelector('.movie-row');
+      const url = carousel.dataset.url;
         
         getMovies(url, row);
     });
@@ -16,15 +21,15 @@ async function init() {
 async function getMovies(url, row) {
     try {
         const response = await fetch(`/api/tmdb-proxy-list/${url}`);
+        const data = await response.json();
         const myCard = createCard(movieData, 'movie');
         document.querySelector('.container').appendChild(myCard);
-        const data = await response.json();
 
         displayMovies(data.results, row); 
 
     } catch (error) {
         console.error("Erreur lors de la récupération :", error);
-        row.innerHTML = "<p>Impossible de charger les films pour le moment.</p>";
+        row.innerHTML = "<p>Impossible de charger les contenus pour le moment.</p>";
     }
 }
 
@@ -67,10 +72,6 @@ carousels.forEach(carousel => {
 
         getMovies(url, row);
         });
-
-import { loadFavorites, createFavButton } from "../Shared/favorites.js";
-
-await loadFavorites();
 
 function createCard(item, mediaType) {
   const tmdbId = item.id;
